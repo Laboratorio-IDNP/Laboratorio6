@@ -33,8 +33,6 @@ public class BarChart extends View {
         int paddingRight = 0;
         int paddingLeft = 0;
         int numSpacesBetweenBars = dataNumber - 1;
-        System.out.println("PPPPPPPP " + height);
-        System.out.println("wWWWWWWWWW " + width);
 
         //Al ancho se le quita los bordes de ambos lados
         int newWidth = width-padding*2;
