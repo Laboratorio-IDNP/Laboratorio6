@@ -9,10 +9,12 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class BarChar extends View {
+public class BarChart extends View {
+    private Map<String, Integer> mapData;
 
-    public BarChar(Context context) {
+    public BarChart(Context context, Map<String, Integer> mapData) {
         super(context);
+        this.mapData = mapData;
     }
 
     protected void onDraw(Canvas canvas) {
@@ -23,20 +25,6 @@ public class BarChar extends View {
 
         pincel1.setARGB(255,242,105,11);
 
-        Map<String, Integer> mapData = new LinkedHashMap<String, Integer>();
-        mapData.put("Argentina", 21);
-        mapData.put("Bolivia", 46);
-        mapData.put("Brazil", 28);
-        mapData.put("Canada", 14);
-        mapData.put("Chile", 24);
-        mapData.put("Colombia", 27);
-        mapData.put("Ecuador", 34);
-        mapData.put("Guyana", 28);
-        mapData.put("Mexico", 29);
-        mapData.put("Peru", 33);
-        mapData.put("U.S.A", 16);
-        mapData.put("Uruguay", 17);
-        mapData.put("Venezuela", 26);
 
         int dataNumber = mapData.size();
         int maxValueOfMapData = Collections.max(mapData.entrySet(), Map.Entry.comparingByValue()).getValue();
@@ -45,6 +33,8 @@ public class BarChar extends View {
         int paddingRight = 0;
         int paddingLeft = 0;
         int numSpacesBetweenBars = dataNumber - 1;
+        System.out.println("PPPPPPPP " + height);
+        System.out.println("wWWWWWWWWW " + width);
 
         //Al ancho se le quita los bordes de ambos lados
         int newWidth = width-padding*2;
@@ -78,6 +68,6 @@ public class BarChar extends View {
 
     private int rescaleBar(int value, int maxValue) {
         //El maximo es 1900
-        return (value * 1900) / maxValue;
+        return (value * 1400) / maxValue;
     }
 }
