@@ -4,16 +4,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class CustomView extends View {
+public class BarChar extends View {
 
-    public CustomView(Context context) {
+    public BarChar(Context context) {
         super(context);
     }
 
@@ -25,7 +23,24 @@ public class CustomView extends View {
 
         pincel1.setARGB(255,242,105,11);
 
-        int dataNumber = 4;
+        Map<String, Integer> mapData = new LinkedHashMap<String, Integer>();
+        mapData.put("Argentina", 21);
+        mapData.put("Bolivia", 46);
+        mapData.put("Brazil", 28);
+        mapData.put("Canada", 14);
+        mapData.put("Chile", 24);
+        mapData.put("Colombia", 27);
+        mapData.put("Ecuador", 34);
+        mapData.put("Guyana", 28);
+        mapData.put("Mexico", 29);
+        mapData.put("Peru", 33);
+        mapData.put("U.S.A", 16);
+        mapData.put("Uruguay", 17);
+        mapData.put("Venezuela", 26);
+
+        int dataNumber = mapData.size();
+        int maxValueOfMapData = Collections.max(mapData.entrySet(), Map.Entry.comparingByValue()).getValue();
+
         int padding = 10;
         int paddingRight = 0;
         int paddingLeft = 0;
@@ -41,33 +56,12 @@ public class CustomView extends View {
         paddingLeft = padding;
         paddingRight = jump + padding;
 
-        //Peliculas favoritas
-        Map<String, Integer> mapData = new HashMap<String, Integer>();
-        mapData.put("Argentina", 21);
-        mapData.put("Bolivia", 46);
-        mapData.put("Brazil", 28);
-        mapData.put("Canada", 14);
-        mapData.put("Chile", 24);
-        mapData.put("Colombia", 27);
-        mapData.put("Ecuador", 34);
-        mapData.put("Guyana", 28);
-        mapData.put("Mexico", 29);
-        mapData.put("Peru", 33);
-        mapData.put("U.S.A", 16);
-        mapData.put("Uruguay", 17);
-        mapData.put("Venezuela", 26);
-
-
-        for (int i = 0; i < dataNumber; ++i) {
-            canvas.drawRect(paddingLeft, 1000, paddingRight,height - padding, pincel1);
+        for (Integer value : mapData.values()) {
+            //canvas.drawRect(paddingLeft, height - value, paddingRight,height - padding, pincel1);
+            canvas.drawRect(paddingLeft, height - rescaleBar(value, maxValueOfMapData), paddingRight,height - padding, pincel1);
             paddingLeft = paddingRight + spaceBetweenBars;
             paddingRight = paddingRight + jump + spaceBetweenBars;
         }
-
-        /*canvas.drawRect(10,10,272 + 0,alto-10, pincel1);
-        canvas.drawRect(272 + 4,10,272 + 262,alto-10, pincel1);
-        canvas.drawRect(534 + 4,10,534 + 262,alto-10, pincel1);
-        canvas.drawRect(796 + 4,10,796 + 262,alto-10, pincel1);*/
     }
 
     private int calculateSpace(int wideSize, int numBarGraphs) {
@@ -80,5 +74,10 @@ public class CustomView extends View {
             wideSpace = wideSpace + 1;
         }
         return wideSpace;
+    }
+
+    private int rescaleBar(int value, int maxValue) {
+        //El maximo es 1900
+        return (value * 1900) / maxValue;
     }
 }
