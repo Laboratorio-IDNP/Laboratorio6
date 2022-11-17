@@ -6,6 +6,11 @@ import android.graphics.Paint;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
 public class CustomView extends View {
 
     public CustomView(Context context) {
@@ -14,38 +19,49 @@ public class CustomView extends View {
 
     protected void onDraw(Canvas canvas) {
         canvas.drawRGB(255,255,255);
-        int ancho=canvas.getWidth();
-        int alto = canvas.getHeight();
-        Paint pincel1=new Paint();
+        int width = canvas.getWidth();
+        int height = canvas.getHeight();
+        Paint pincel1 = new Paint();
 
         pincel1.setARGB(255,242,105,11);
 
-
-        int dataNumber = 10;
+        int dataNumber = 4;
         int padding = 10;
         int paddingRight = 0;
         int paddingLeft = 0;
         int numSpacesBetweenBars = dataNumber - 1;
 
         //Al ancho se le quita los bordes de ambos lados
-        int newWidth = ancho-padding*2;
+        int newWidth = width-padding*2;
         int spaceBetweenBars = calculateSpace(newWidth, dataNumber);
         int jump = newWidth - (spaceBetweenBars * numSpacesBetweenBars);
         jump = jump / dataNumber;
 
-        System.out.println("WWWWWWWWWWW  " + spaceBetweenBars);
-
-
         // (ancho por la izquierda, altura por arriba, ancho hacia la derecha, altura de por abajo)
-        //canvas.drawRect(10,10,ancho-10,alto-10, pincel1);
         paddingLeft = padding;
-        paddingRight = jump;
-        for (int i = 1; i <= dataNumber; ++i) {
+        paddingRight = jump + padding;
 
-            canvas.drawRect(paddingLeft + padding,10,paddingRight + padding,alto-10, pincel1);
-            //System.out.println("WWWWWWWWWWW  " + paddingRight);
-            paddingLeft = jump * i + spaceBetweenBars;
-            paddingRight = paddingRight + jump;
+        //Peliculas favoritas
+        Map<String, Integer> mapData = new HashMap<String, Integer>();
+        mapData.put("Argentina", 21);
+        mapData.put("Bolivia", 46);
+        mapData.put("Brazil", 28);
+        mapData.put("Canada", 14);
+        mapData.put("Chile", 24);
+        mapData.put("Colombia", 27);
+        mapData.put("Ecuador", 34);
+        mapData.put("Guyana", 28);
+        mapData.put("Mexico", 29);
+        mapData.put("Peru", 33);
+        mapData.put("U.S.A", 16);
+        mapData.put("Uruguay", 17);
+        mapData.put("Venezuela", 26);
+
+
+        for (int i = 0; i < dataNumber; ++i) {
+            canvas.drawRect(paddingLeft, 1000, paddingRight,height - padding, pincel1);
+            paddingLeft = paddingRight + spaceBetweenBars;
+            paddingRight = paddingRight + jump + spaceBetweenBars;
         }
 
         /*canvas.drawRect(10,10,272 + 0,alto-10, pincel1);
@@ -61,7 +77,7 @@ public class CustomView extends View {
 
         while(ws % numBarGraphs != 0) {
             ws -= numSpaces;
-            wideSpace = wideSpace + 2;
+            wideSpace = wideSpace + 1;
         }
         return wideSpace;
     }
